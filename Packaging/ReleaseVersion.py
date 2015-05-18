@@ -135,14 +135,17 @@ def build_android():
         build_android_project(os.path.join('..', proj), outputFile=logFile)
         print('OK')
 
-    # build documentation
-    print('Creating C++ documentation...', end=" ")
-    check_call([os.path.join('..', 'Source', 'Documentation', 'Runme.py')], outputFile=logFile)
-    print('OK')
+    if plat != 'Android':
+        # build documentation
+        print('Creating C++ documentation...', end=" ")
+        check_call([os.path.join('..', 'Source', 'Documentation', 'Runme.py')], outputFile=logFile)
+        print('OK')
 
-    print('Creating java documentation...', end=" ")
-    build_android_project('../Wrappers/java', outputFile=logFile, target='javadoc')
-    print('OK')
+        print('Creating java documentation...', end=" ")
+        build_android_project('../Wrappers/java', outputFile=logFile, target='javadoc')
+        print('OK')
+    else:
+        print('Skipping documentation generation for Android.')
 
 # Create installer
 strVersion = UpdateVersion.getVersionName()
