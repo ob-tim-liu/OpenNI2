@@ -178,10 +178,10 @@ void VideoStream::stop()
 
 	m_pFrameHolder->clear();
 }
-	
-OniBool VideoStream::isStarted() 
-{ 
-	return m_started; 
+
+OniBool VideoStream::isStarted()
+{
+	return m_started;
 }
 
 OniFrame* VideoStream::peekFrame()
@@ -282,7 +282,7 @@ void VideoStream::newFrameThreadMainloop()
 	// Wait on frame
 	while (m_running)
 	{
-		rc = xnOSWaitEvent(m_newFrameInternalEvent, XN_WAIT_INFINITE);
+		rc = xnOSWaitEvent(m_newFrameInternalEvent, 1000);
 		if ((rc == XN_STATUS_OK) && m_running)
 		{
 			m_newFrameEvent.Raise();
@@ -333,11 +333,11 @@ void ONI_CALLBACK_TYPE VideoStream::stream_NewFrame(OniFrame* pFrame, void* pCoo
 	// matter what. Or else we might loose frames or have other odd side
 	// effects.
 
-    {   
+    {
 		// NOTE: scoped for the guard.
         xnl::LockGuard<Recorders> guard(pStream->m_recorders);
-        for (Recorders::Iterator 
-                i = pStream->m_recorders.Begin(), 
+        for (Recorders::Iterator
+                i = pStream->m_recorders.Begin(),
                 e = pStream->m_recorders.End();
             i != e; ++i)
         {
@@ -367,7 +367,7 @@ Device& VideoStream::getDevice()
 	return m_device;
 }
 
-void* VideoStream::getHandle() const 
+void* VideoStream::getHandle() const
 {
 	return m_pSensor->streamHandle();
 }
